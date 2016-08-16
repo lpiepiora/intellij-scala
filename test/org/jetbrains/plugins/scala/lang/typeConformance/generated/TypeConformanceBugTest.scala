@@ -4,6 +4,8 @@ package generated
 class TypeConformanceBugTest extends TypeConformanceTestBase {
   override def folderPath: String = super.folderPath + "bug/"
 
+  def testSCL10672() {doTest()}
+
   def testSCL2244() {doTest()}
 
   def testSCL2549A() {doTest()}

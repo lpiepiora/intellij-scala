@@ -8,6 +8,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.plugins.scala.lang.psi.api.ScalaElementVisitor
+import org.jetbrains.plugins.scala.lang.psi.api.base.ScStableCodeReferenceElement
 import org.jetbrains.plugins.scala.lang.psi.api.expr._
 import org.jetbrains.plugins.scala.lang.psi.api.toplevel.templates.ScTemplateBody
 import org.jetbrains.plugins.scala.lang.psi.api.toplevel.typedef.{ScTemplateDefinition, ScTypeDefinition}
@@ -60,6 +61,8 @@ object ScThisReferenceImpl {
     val element = Some(expr)
     val result = expr.getContext match {
       case referenceExpression: ScReferenceExpression if referenceExpression.qualifier.contains(expr) =>
+        ScThisType(td)
+      case ref: ScStableCodeReferenceElement if ref.pathQualifier.contains(expr) =>
         ScThisType(td)
       case _ => expr.expectedType() match {
         case Some(designatorOwner: DesignatorOwner) if designatorOwner.isStable =>
